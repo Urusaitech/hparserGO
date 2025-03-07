@@ -4,8 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/joho/godotenv"
 	"log"
 	"net"
+	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -15,27 +18,37 @@ import (
 	parser "hparserGO/proto/go"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "mars"
-	dbname   = "handurus"
-)
-
 var db *sql.DB
 
 func initDB() error {
-	var err error
-	connectionString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	db, err = sql.Open("postgres", connectionString)
+	err := godotenv.Load()
 	if err != nil {
-		return err
+		log.Fatalf("Error loading .env file: %v", err)
 	}
+
+	host := os.Getenv("DB_HOST")
+	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
+	if err != nil {
+		log.Fatalf("Invalid DB_PORT: %v", err)
+	}
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
+	connectionString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	var dbErr error
+	db, dbErr = sql.Open("postgres", connectionString)
+	if dbErr != nil {
+		return dbErr
+	}
+
 	err = db.Ping()
 	if err != nil {
 		return err
 	}
+
 	log.Println("Connected to the database")
 	return nil
 }
