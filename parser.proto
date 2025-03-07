@@ -1,0 +1,26 @@
+syntax = 'proto3';
+
+option go_package="proto/go/parser";
+
+import "google/protobuf/timestamp.proto";
+
+package parser;
+
+service ParserService {
+  rpc UpdateChannels(UpdateChannelsRequest) returns (Channels);
+  rpc GetChannels(GetChannelsRequest) returns (Channels);
+}
+
+message Channels {
+  string ids = 1;
+  string names = 2;
+  google.protobuf.Timestamp process_time = 3;
+}
+
+message UpdateChannelsRequest {
+  string update = 1;
+}
+
+message GetChannelsRequest {
+  string names = 1;
+}

@@ -1,0 +1,137 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Parser API",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ParserService"
+    }
+  ],
+  "host": "localhost:8081",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/channels": {
+      "get": {
+        "operationId": "ParserService_GetChannels",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parserChannels"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "names",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ParserService"
+        ]
+      },
+      "post": {
+        "operationId": "ParserService_UpdateChannels",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parserChannels"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/parserUpdateChannelsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ParserService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "parserChannels": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "string"
+        },
+        "names": {
+          "type": "string"
+        },
+        "processTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "parserUpdateChannelsRequest": {
+      "type": "object",
+      "properties": {
+        "update": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+openapiOptions:
+  file:
+    - file: "parser.proto"
+      option:
+        info:
+          title: "Parser API"
+        schemes:
+          - HTTP
+        host: "localhost:8081"

@@ -1,0 +1,10 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+    - selector: parser.ParserService.UpdateChannels
+      post: "/api/v1/channels"
+      body: "*"
+    - selector: parser.ParserService.GetChannels
+      get: "/api/v1/channels"
