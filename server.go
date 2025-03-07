@@ -93,7 +93,12 @@ func (s *parserServiceServer) GetChannels(ctx context.Context, req *parser.GetCh
 		log.Printf("Error querying channels: %v", err)
 		return nil, err
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
 
 	var allChannels []string
 	var allNames []string
